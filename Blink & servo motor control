@@ -1,0 +1,53 @@
+//Initialising Pins,Variables & Library
+
+#define LED 9
+#include <Servo.h>
+ 
+char direction;
+int Angle;
+Servo servo;
+bool blinkLED = false;
+
+//Assigning pins
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED,OUTPUT);
+  
+  servo.attach(5);
+  
+  Serial.println("For angle of (0,60,90,120,180,270) type corresponding angle like 0,60");
+  
+}
+//operation
+void loop() {
+  
+  int Angle = Serial.parseInt();
+  if (Serial.available()){
+    
+    delay(500);
+    if (Angle == 0||Angle == 60||Angle == 90||Angle == 120||Angle == 180||Angle == 270)
+    {
+     
+      servo.write(Angle);
+      blinkLED = true;
+
+    }
+
+    else{
+      Serial.println("NOT VALID");
+      digitalWrite(LED,LOW);//mention the entered value is invalid and stop blinking the led
+      blinkLED = false;
+    }
+
+  }  
+  if (blinkLED) {
+    Blink();
+    
+  }
+
+}
+void Blink(){
+  digitalWrite(LED,!digitalRead(LED));
+  
+
+}
